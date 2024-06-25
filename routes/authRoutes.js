@@ -1,7 +1,7 @@
 // Ruta /api/login
 
 const { Router } = require('express')
-const { login } = require('../controllers/authController');
+const { login, google } = require('../controllers/authController');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 
@@ -14,5 +14,12 @@ router.post( '/',
         validarCampos
     ]
 , login)
+
+router.post( '/google', 
+    [
+        check('token', 'El token es obligatorio.').not().isEmpty(),
+        validarCampos
+    ]
+, google)
 
 module.exports = router;
