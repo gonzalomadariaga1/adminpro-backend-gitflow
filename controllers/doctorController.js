@@ -36,20 +36,71 @@ const createDoctor = async ( req , res = response ) => {
     }
 }
 
-const updateDoctor = ( req , res = response ) => {
+const updateDoctor = async ( req , res = response ) => {
 
-    res.json({
-        ok: true,
-        msg: 'updateDoctor'
-    })
+    const uid = req.uid
+    const id = req.params.id
+
+    try {
+
+        const doctorDb = await Doctor.findById(id)
+
+        if(!doctorDb){
+            return res.status(404).json({
+                ok:false,
+                msg: 'Doctor no existe.'
+            })
+        }
+
+        const changesDoctor = {
+            ...req.body,
+            user: uid
+        }
+
+        const doctorUpdated = await Doctor.findByIdAndUpdate(id, changesDoctor, { new: true})
+
+        res.json({
+            ok: true,
+            doctor: doctorUpdated
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            ok:false,
+            msg: 'Error inesperado.'
+        })
+    }
 }
 
-const deleteDoctor = ( req , res = response ) => {
+const deleteDoctor = async ( req , res = response ) => {
 
-    res.json({
-        ok: true,
-        msg: 'deleteDoctor'
-    })
+    const id = req.params.id
+
+    try {
+
+        const doctorDb = await Doctor.findById(id)
+
+        if(!doctorDb){
+            return res.status(404).json({
+                ok:false,
+                msg: 'Doctor no existe.'
+            })
+        }
+
+        await Doctor.findByIdAndDelete( id )
+
+
+        res.json({
+            ok: true,
+            msg: 'Doctor eliminado.'
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            ok:false,
+            msg: 'Error inesperado.'
+        })
+    }
 }
 
 
