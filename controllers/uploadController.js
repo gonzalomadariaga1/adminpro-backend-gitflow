@@ -30,7 +30,7 @@ const fileUpload = async (req , res = response) => {
     const extensionArchivo = nombreCortado[ nombreCortado.length - 1]
 
     const validExtensions = ['png','jpg','jpeg','gif'];
-    if ( !validExtensions.includes( extensionArchivo )){
+    if ( !validExtensions.includes( extensionArchivo.toLowerCase() )){
         return res.status(400).json({
             ok:false,
             msg:'La extensión del archivo no es permitida.'

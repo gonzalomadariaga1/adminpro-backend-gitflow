@@ -95,7 +95,14 @@ const updateUser = async ( req, res= response) => {
             }
         }
 
-        campos.email = email
+        if (!userDB.google){
+            campos.email = email
+        } else if ( userDB.email !== email ){
+            res.status(400).json({
+                ok: false,
+                msg: 'Usuario de google no puede cambiar email.'
+            })
+        }
 
         const userUpdated = await User.findByIdAndUpdate( uid , campos, {new: true})
 
