@@ -24,7 +24,7 @@ const createDoctor = async ( req , res = response ) => {
 
         res.json({
             ok: true,
-            doctor: doctorDB
+            doctors: doctorDB
         })
         
     } catch (error) {
@@ -61,7 +61,7 @@ const updateDoctor = async ( req , res = response ) => {
 
         res.json({
             ok: true,
-            doctor: doctorUpdated
+            doctors: doctorUpdated
         })
         
     } catch (error) {
@@ -103,9 +103,35 @@ const deleteDoctor = async ( req , res = response ) => {
     }
 }
 
+const getDoctorsById = async ( req , res = response ) => {
+
+    const id = req.params.id
+
+    try {
+
+        const doctors = await Doctor.findById(id)
+                                        .populate('user','name img')
+                                        .populate('hospital','name');
+
+        res.json({
+            ok: true,
+            doctors
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Error inesperado.'
+        })
+    }
+
+    
+}
+
 
 module.exports = {
     getDoctors,
+    getDoctorsById,
     createDoctor,
     updateDoctor,
     deleteDoctor
