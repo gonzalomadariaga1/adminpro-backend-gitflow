@@ -32,7 +32,16 @@ const getSearchByCollection = async (req , res = response) => {
     let data = []; 
     switch (collection) {
         case 'users':
-            data = await User.find({ name: regex })
+            data = await User.find({
+                $or: [
+                    {
+                        name: regex
+                    },
+                    {
+                        email: regex
+                    }
+                ]
+            })
         break;
 
         case 'hospitals':

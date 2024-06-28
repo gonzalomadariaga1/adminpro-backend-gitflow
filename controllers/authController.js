@@ -59,7 +59,7 @@ const google = async (req, res=response) => {
         let user
 
         if(!userDB){
-            user = new Usuario({
+            user = new User({
                 name,
                 email,
                 password: '@@@',
@@ -98,9 +98,13 @@ const renewToken = async ( req, res = response ) => {
     const uid = req.uid
     const token = await generateJWT( uid );
 
+
+    const user = await User.findById( uid)
+
     res.json({
         ok: true,
-        token
+        token,
+        user
     })
 
 }
