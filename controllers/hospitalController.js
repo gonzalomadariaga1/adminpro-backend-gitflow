@@ -22,7 +22,7 @@ const createHospital = async ( req , res = response ) => {
 
         res.json({
             ok: true,
-            hospital: hospitalDB
+            hospitals: hospitalDB
         })
         
     } catch (error) {
@@ -62,7 +62,7 @@ const updateHospital = async ( req , res = response ) => {
         res.json({
             ok: true,
             msg: 'updateHospital',
-            hospital: hospitalUpdated
+            hospitals: hospitalUpdated
         })
         
     } catch (error) {
@@ -79,7 +79,7 @@ const updateHospital = async ( req , res = response ) => {
 const deleteHospital = async ( req , res = response ) => {
 
     const id = req.params.id
-
+    console.log(id);
     try {
 
         const hospitalDB = await Hospital.findById(id)
